@@ -5,7 +5,6 @@ Support for the Homey apps by Idan Bush: report a problem, ask for a feature, or
 | App | Homey App Store | Community |
 | --- | --- | --- |
 | Narwal: control for Narwal robot vacuums | [com.narwal.global](https://homey.app/a/com.narwal.global/) | [Forum thread](https://community.homey.app/t/app-pro-narwal-control-for-narwal-robot-vacuums/160061) |
-| Switcher | [il.co.switcher](https://homey.app/a/il.co.switcher/) | |
 | PalGate Control | [com.pal-es](https://homey.app/a/com.pal-es/) | |
 | Red Alert Israel | [il.co.tzevaadom](https://homey.app/a/il.co.tzevaadom/) | |
 

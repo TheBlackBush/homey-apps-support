@@ -20,7 +20,6 @@ jobs:
             if (!match) return;
             const labels = {
               'com.narwal.global': 'app: narwal',
-              'il.co.switcher': 'app: switcher',
               'com.pal-es': 'app: palgate',
               'il.co.tzevaadom': 'app: red alert',
             };

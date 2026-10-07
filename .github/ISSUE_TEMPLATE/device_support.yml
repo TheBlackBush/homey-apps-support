@@ -13,7 +13,6 @@ body:
       label: App
       options:
         - Narwal (com.narwal.global)
-        - Switcher (il.co.switcher)
         - PalGate Control (com.pal-es)
         - Red Alert Israel (il.co.tzevaadom)
     validations:
