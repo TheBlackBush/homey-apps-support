@@ -1,0 +1,28 @@
+name: Feature request
+description: An idea for a new feature or an improvement.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: dropdown
+    id: app
+    attributes:
+      label: App
+      options:
+        - Narwal (com.narwal.global)
+        - Switcher (il.co.switcher)
+        - PalGate Control (com.pal-es)
+        - Red Alert Israel (il.co.tzevaadom)
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like
+      description: What the app should do, and what you would use it for.
+    validations:
+      required: true
+  - type: textarea
+    id: more
+    attributes:
+      label: Anything else
+      description: Examples, screenshots, or how the maker's own app does it.

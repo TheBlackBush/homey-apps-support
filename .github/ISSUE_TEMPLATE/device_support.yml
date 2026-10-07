@@ -1,0 +1,46 @@
+name: New device or model
+description: Ask for support for a device or model the app does not support yet.
+title: "[Device]: "
+labels: ["device support"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Issues are public: do not paste serial numbers, device IDs, IP addresses or account details.
+  - type: dropdown
+    id: app
+    attributes:
+      label: App
+      options:
+        - Narwal (com.narwal.global)
+        - Switcher (il.co.switcher)
+        - PalGate Control (com.pal-es)
+        - Red Alert Israel (il.co.tzevaadom)
+    validations:
+      required: true
+  - type: input
+    id: model
+    attributes:
+      label: Device and model
+      description: As named on the box or in the maker's app.
+      placeholder: "Narwal Freo X Ultra"
+    validations:
+      required: true
+  - type: dropdown
+    id: tried
+    attributes:
+      label: Did you try adding it?
+      options:
+        - "Yes, as the closest model or as Other"
+        - "No, it is not in the list"
+  - type: textarea
+    id: report
+    attributes:
+      label: Diagnostics report
+      description: When the app has a diagnostics report and you could add the device, run it and paste the report here (it leaves out IDs and addresses).
+      render: text
+  - type: textarea
+    id: more
+    attributes:
+      label: Anything else
+      description: What works and what does not, and links to the device's product page.

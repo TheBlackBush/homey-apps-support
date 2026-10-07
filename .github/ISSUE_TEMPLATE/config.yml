@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Narwal app on the Homey Community
+    url: https://community.homey.app/t/app-pro-narwal-control-for-narwal-robot-vacuums/160061
+    about: Questions and tips about the Narwal app, and updates from other users.
+  - name: Homey Community
+    url: https://community.homey.app/
+    about: General questions about Homey.

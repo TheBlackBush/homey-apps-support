@@ -1,0 +1,68 @@
+name: Bug report
+description: Something in one of the apps does not work as it should.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Issues are public: do not paste your email address, passwords, codes, device IDs, IP addresses or room names.
+  - type: dropdown
+    id: app
+    attributes:
+      label: App
+      options:
+        - Narwal (com.narwal.global)
+        - Switcher (il.co.switcher)
+        - PalGate Control (com.pal-es)
+        - Red Alert Israel (il.co.tzevaadom)
+    validations:
+      required: true
+  - type: input
+    id: app_version
+    attributes:
+      label: App version
+      description: Homey app, Settings, Apps, the app.
+      placeholder: "1.4.2"
+    validations:
+      required: true
+  - type: input
+    id: homey
+    attributes:
+      label: Homey model and version
+      placeholder: "Homey Pro (2023), 13.5.0"
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device and model
+      description: The device the problem is about, as named by its maker.
+      placeholder: "Narwal Flow 2"
+  - type: dropdown
+    id: connection
+    attributes:
+      label: Connection
+      description: How the app reaches the device, when it has a choice.
+      options:
+        - Local network
+        - Cloud (signed in to the maker's account)
+        - Not sure
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: report
+    attributes:
+      label: Diagnostics report or Log ID
+      description: The app's own diagnostics report when it has one (it leaves out IDs and addresses), or the Log ID of a Homey diagnostics report (Settings, Apps, the app, Send diagnostics report).
+      render: text
+  - type: textarea
+    id: more
+    attributes:
+      label: Anything else
+      description: Screenshots, when it started, what you already tried.
