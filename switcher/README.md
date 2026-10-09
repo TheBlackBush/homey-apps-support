@@ -26,7 +26,7 @@ Control your Switcher smart home devices from Homey Pro: water heater switches, 
 | Touch | Water heater | No | Tested daily |
 | Mini | Water heater | No | Same protocol as the Touch; not yet tested |
 | Long | Water heater | No | Same protocol as the Touch; not yet tested |
-| Boiler S216 (onWall) | Water heater | Yes | Not yet tested |
+| Boiler S216 (onWall) | Water heater | Yes | Not yet tested; see the note below |
 | Smart Plug | Socket | No | Same protocol as the Touch; not yet tested |
 | Bath Heater | Heater | Yes | Not yet tested |
 | Runner | Shutter | No | Not yet tested |
@@ -38,6 +38,8 @@ Control your Switcher smart home devices from Homey Pro: water heater switches, 
 | Breeze | Air conditioner | No | Not yet tested |
 
 The untested models are built from the Switcher protocol and checked against recorded device data. Reports from owners are very welcome: open a **New device or model** issue or a bug report and say what worked.
+
+**Boiler S216 (onWall):** other Switcher integrations report that this model currently refuses local commands on its present firmware, and Switcher is expected to fix this in a firmware update. Its status (on/off, power, time left) should still show in Homey; when a command is refused, the app says so. Reports from owners are very welcome.
 
 ### Not supported yet
 
@@ -101,6 +103,10 @@ Homey has not received its status messages for three minutes. Check its power an
 ### "This device needs your Switcher account token"
 
 Open the device and choose **Repair** to enter the token. Request a new one at [switcher.co.il/GetKey](https://switcher.co.il/GetKey/) if needed.
+
+### "The device did not accept Homey's commands"
+
+The device was probably set up with a different Switcher account than the one your token is from (for example, a device shared with you). Set it up again in the Switcher app with your own account, or request the token for the account that set it up. For the Boiler S216, see the note under Supported models.
 
 ### Commands fail or time out
 
