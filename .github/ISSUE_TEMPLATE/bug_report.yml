@@ -15,6 +15,7 @@ body:
         - Narwal (com.narwal.global)
         - PalGate Control (com.pal-es)
         - Red Alert Israel (il.co.tzevaadom)
+        - Switcher (il.co.switcher.home)
     validations:
       required: true
   - type: input

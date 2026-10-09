@@ -22,6 +22,7 @@ jobs:
               'com.narwal.global': 'app: narwal',
               'com.pal-es': 'app: palgate',
               'il.co.tzevaadom': 'app: red alert',
+              'il.co.switcher.home': 'app: switcher',
             };
             const id = (match[1].match(/\(([^)]+)\)/) || [])[1];
             const label = labels[id];

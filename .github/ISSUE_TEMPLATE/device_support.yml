@@ -15,6 +15,7 @@ body:
         - Narwal (com.narwal.global)
         - PalGate Control (com.pal-es)
         - Red Alert Israel (il.co.tzevaadom)
+        - Switcher (il.co.switcher.home)
     validations:
       required: true
   - type: input
@@ -22,7 +23,7 @@ body:
     attributes:
       label: Device and model
       description: As named on the box or in the maker's app.
-      placeholder: "Narwal Freo X Ultra"
+      placeholder: "Narwal Freo X Ultra, Switcher Runner S11"
     validations:
       required: true
   - type: dropdown
