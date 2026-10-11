@@ -1,0 +1,91 @@
+name: "PalGate Control: bug report"
+description: Linking, adding gates or opening a gate with the PalGate Control app does not work as it should.
+title: "[PalGate]: "
+labels: ["bug", "app: palgate"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Check the [PalGate Control guide](https://github.com/TheBlackBush/homey-apps-support/wiki/PalGate-Control#troubleshooting) first, most problems are fixed by linking again.
+
+        Issues are public: do not paste your phone number, the session token, gate IDs or the QR code.
+  - type: dropdown
+    id: app
+    attributes:
+      label: App
+      options:
+        - PalGate Control (com.pal-es)
+      default: 0
+    validations:
+      required: true
+  - type: input
+    id: app_version
+    attributes:
+      label: App version
+      description: Homey app, Settings, Apps, PalGate Control.
+      placeholder: "0.4.3"
+    validations:
+      required: true
+  - type: input
+    id: homey
+    attributes:
+      label: Homey model and version
+      placeholder: "Homey Pro (2023), 12.9.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: What does not work
+      options:
+        - Linking with the PalGate app (QR code)
+        - Saving the settings
+        - Adding gates (the list is empty, a gate is missing, or an error)
+        - Opening a gate from the tile or device page
+        - Opening a gate from a Flow or voice assistant
+        - The gate state shown in Homey
+        - Something else
+    validations:
+      required: true
+  - type: dropdown
+    id: link
+    attributes:
+      label: How the app was connected
+      options:
+        - Link with PalGate App (QR code)
+        - Entered the details by hand
+        - Not sure
+  - type: dropdown
+    id: outputs
+    attributes:
+      label: Gate outputs
+      description: Does the gate have more than one output in the PalGate app (for example a gate and a pedestrian door)?
+      options:
+        - One output
+        - Several outputs
+        - Not sure
+  - type: dropdown
+    id: palgate_app
+    attributes:
+      label: Does the same gate open from the PalGate app?
+      options:
+        - "Yes"
+        - "No"
+        - Did not try
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected, and what happened instead. Copy any error message exactly.
+    validations:
+      required: true
+  - type: input
+    id: log_id
+    attributes:
+      label: Diagnostics Log ID
+      description: Homey app, Settings, Apps, PalGate Control, Send diagnostics report, then copy the Log ID.
+  - type: textarea
+    id: more
+    attributes:
+      label: Anything else
+      description: Screenshots (hide your phone number and token), when it started, what you already tried.
