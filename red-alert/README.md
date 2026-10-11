@@ -54,7 +54,7 @@ Tick **Enable quiet hours** and choose a start and end time (24-hour clock, Isra
 
 The same alert often arrives more than once (for example from both alert sources the app uses). The throttle values set, per alert type, how long the app ignores a repeat of an alert it already handled, in milliseconds: 60000 is one minute. The defaults are 2 minutes for alerts and all-clear messages, and 3 minutes for early warnings.
 
-A value under one minute works like one minute. New alerts for other areas, or new alerts after the throttle time, always come through. Make the values longer only if your Flows run twice for the same alert.
+The smallest value is 60000 (one minute): a smaller value is raised to it when you tap **Save** (before version 0.4.10, a value of 0 was saved as the default instead). New alerts for other areas, or new alerts after the throttle time, always come through. Make the values longer only if your Flows run twice for the same alert.
 
 ## The dashboard widget
 
