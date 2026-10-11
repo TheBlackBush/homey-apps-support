@@ -28,33 +28,35 @@ Get Israeli Home Front Command alerts (Tzeva Adom, "Red Alert") in Homey Pro and
 
 ## Set up the app
 
-All settings are on one page: in the Homey app, go to **Settings → Apps → Red Alert Israel → Configure**. Nothing is stored until you tap **Save** at the bottom of the page.
+All settings are on one page: in the Homey app, go to **Settings → Apps → Red Alert Israel → Configure**. Changes are stored only when you tap **Save** at the bottom of the page; until then the page shows **You have unsaved changes**.
 
-1. **Language:** tap **עברית** or **English** at the top. This sets the language of the settings page and of everything the app writes in your Flows: threat names, area names and messages.
-2. **Monitoring enabled:** keep this on. When it is off, the app ignores all alerts.
-3. **Cities:** tap **Choose cities**, search for your city (in Hebrew or English), tick it and tap **Apply**. Repeat for every city or area you care about, for example your home, your parents' city or your workplace. See [Choosing cities](#choosing-cities).
+1. **Language:** tap **עברית** or **English** at the top. This sets the language of the settings page (Hebrew reads right to left) and of everything the app writes in your Flows: threat names, area names and messages.
+2. **Monitoring:** keep **Receive alerts** on. The label below it shows **On: listening for alerts**. When it is off, the app ignores all alerts.
+3. **Alert areas:** tap **Choose areas**, search for your city (in Hebrew or English), tick it and tap **Apply**. Repeat for every area you care about, for example your home, your parents' city or your workplace. See [Choosing alert areas](#choosing-alert-areas).
 4. **Quiet hours** (optional): see [Quiet hours](#quiet-hours).
-5. **Throttle** (optional): leave the default values unless you have a reason to change them. See [Throttle](#throttle).
-6. Tap **Save**. The page shows **Saved.** and the new settings apply right away.
+5. **Advanced: repeated alerts** (optional): leave the default values unless you have a reason to change them. See [Repeated alerts](#repeated-alerts).
+6. Tap **Save**. The page shows **Saved** and the new settings apply right away.
 
-### Choosing cities
+Version 0.4.9 and older have the same settings with different labels (for example **Monitoring enabled** and **Choose cities**) and show the repeated-alert times in milliseconds.
 
-- Only alerts for the cities you selected start your Flows. The names are the official Home Front Command alert areas, so large cities are split into several areas (for example "Tel Aviv - City Center" and "Tel Aviv - South and Jaffa"). Select every area you need.
-- **No cities selected means the whole country:** every alert anywhere in Israel starts your Flows. This is usually not what you want.
-- Alerts for the whole country ("nationwide") always count as an alert for your cities.
-- To remove a city, open **Choose cities** again, untick it, tap **Apply** and then **Save**. **Clear all** unticks everything.
+### Choosing alert areas
+
+- Only alerts for the areas you selected start your Flows. The names are the official Home Front Command alert areas, so large cities are split into several areas (for example "Tel Aviv - City Center" and "Tel Aviv - South and Jaffa"). Select every area you need.
+- **No areas selected means the whole country:** every alert anywhere in Israel starts your Flows. The settings page shows a warning when no area is selected.
+- Alerts for the whole country ("nationwide") always count as an alert for your areas.
+- In the list, the areas you already selected are shown first. To remove an area, tap the **×** on it in the settings page, or untick it in **Choose areas**. **Clear** unticks everything. Then tap **Save**.
 
 ### Quiet hours
 
 Quiet hours only silence **early warnings**. Real alerts and all-clear messages always start your Flows, also during quiet hours.
 
-Tick **Enable quiet hours** and choose a start and end time (24-hour clock, Israel time). A range that crosses midnight, such as 23:00 to 06:00, works as expected.
+Turn on **Silence early warnings at night** and choose the **From** and **Until** times (Israel time). A range that crosses midnight, such as 23:00 to 06:00, works as expected.
 
-### Throttle
+### Repeated alerts
 
-The same alert often arrives more than once (for example from both alert sources the app uses). The throttle values set, per alert type, how long the app ignores a repeat of an alert it already handled, in milliseconds: 60000 is one minute. The defaults are 2 minutes for alerts and all-clear messages, and 3 minutes for early warnings.
+The same alert often arrives more than once (for example from both alert sources the app uses). Under **Advanced: repeated alerts** you set, per alert type, for how many seconds the app ignores a repeat of an alert it already handled. The defaults are 120 seconds for red alerts, all-clear and other threats, and 180 seconds for early warnings. **Restore defaults** puts these values back.
 
-The smallest value is 60000 (one minute): a smaller value is raised to it when you tap **Save** (before version 0.4.10, a value of 0 was saved as the default instead). New alerts for other areas, or new alerts after the throttle time, always come through. Make the values longer only if your Flows run twice for the same alert.
+The smallest value is 60 seconds: a smaller value is raised to it when you tap **Save**. New alerts for other areas, or new alerts after this time, always come through. Make the values longer only if your Flows run twice for the same alert.
 
 ## The dashboard widget
 
@@ -169,8 +171,8 @@ The app has no test alert. To check a Flow, open it in the Flow editor and tap *
 
 ### My Flows did not start for an alert
 
-- Check that monitoring is on (the widget switch, or **Monitoring enabled** in the settings).
-- Open the settings and check that your city is selected and that you tapped **Save**. Large cities are split into several alert areas; the alert may have been for an area you did not select.
+- Check that monitoring is on (the widget switch, or **Receive alerts** in the settings).
+- Open the settings and check that your area is selected under **Alert areas** and that you tapped **Save**. Large cities are split into several alert areas; the alert may have been for an area you did not select.
 - Early warnings do not start Flows during quiet hours, or while a red alert for your cities is already active.
 - Drills are ignored.
 - Check that the Flow uses the right **When** card: rockets and other threats use **Red alert received**, not **Early warning received**.
@@ -178,7 +180,7 @@ The app has no test alert. To check a Flow, open it in the Flow editor and tap *
 
 ### My Flows started for an alert in another city
 
-- With no cities selected, every alert in the country starts your Flows. Select your cities.
+- With no areas selected, every alert in the country starts your Flows. Select your areas.
 - Alerts for the whole country ("nationwide") always start your Flows.
 
 ### The widget shows Disconnected or Reconnecting
@@ -198,7 +200,7 @@ The app sets **Active alert** back to **No** when the all-clear for your cities 
 
 ### My Flows run twice for one alert
 
-Increase the throttle values for that alert type (see [Throttle](#throttle)) and tap **Save**. Also check that you do not have two Flows reacting to the same card.
+Increase the repeated-alert time for that alert type (see [Repeated alerts](#repeated-alerts)) and tap **Save**. Also check that you do not have two Flows reacting to the same card.
 
 ### My city is missing in the list
 
