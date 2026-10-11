@@ -1,193 +1,320 @@
 # Narwal for Homey
 
-Control your Narwal robot vacuum from Homey Pro. The app talks to the robot directly over your home network, so no Narwal account is needed; signing in with your Narwal account is optional (Cloud mode, cloud-only models and the camera).
+Control your Narwal robot vacuum from Homey Pro: start and stop cleans, clean single rooms, send the robot back to its station, wash and dry the mop, and see its status, a live map and the state of its parts on your Homey dashboard. Homey talks to most robots directly over your home network, so they respond right away and keep working when the internet is down. Signing in with your Narwal account is optional, and needed only for a few models and features.
 
 - **Install:** [Homey App Store](https://homey.app/a/com.narwal.global/) ([test version](https://homey.app/a/com.narwal.global/test/))
-- **Questions and news:** [Homey Community thread](https://community.homey.app/t/app-pro-narwal-control-for-narwal-robot-vacuums/160061)
+- **Questions and tips:** [Homey Community thread](https://community.homey.app/t/app-pro-narwal-control-for-narwal-robot-vacuums/160061)
 - **Report a problem or ask for a feature:** [open an issue](https://github.com/TheBlackBush/homey-apps-support/issues/new/choose) and choose **Narwal**
 
 > Unofficial community app. Not affiliated with, authorised by, or endorsed by Narwal. "Narwal" and "Freo" are trademarks of their respective owners and are used here only to describe compatibility.
 
-## Features
+## What you can do
 
-- Local LAN connection to the robot, usually on WebSocket port `9002`.
-- Optional Cloud mode: sign in with your Narwal account in the app settings to control the robot through the Narwal cloud, with the same features as Local. Choose the country your Narwal account is set to: Narwal keeps each account on its country's own server, and the app uses the same server as the Narwal app.
-- Separate Homey drivers for each supported model.
-- Start, pause, resume and stop cleaning.
-- Return to dock and locate the robot. "Dock" in the app is the robot's Narwal base station.
-- Live battery, charging, docked, connected, cleaning area/time, firmware, status and last error.
-- Fan-speed control: `Quiet`, `Standard`, `Strong`, `Super Powerful`, `Ultra Powerful` (Freo Z10 Pro / Turbo: up to Super Powerful). A level chosen while docked is used for the next clean.
-- Room cleaning with Flow autocomplete. Room names match the Narwal app (custom names in any language, and numbered types such as `Toilet1`, `Toilet2`).
-- Cleaning mode settings (mode, water level, mop strength, passes, route) and a Clean with settings Flow card for one-off cleans.
-- Station actions: empty the dustbin, wash the mop and dry the mop, from Flows.
-- Robot settings read from the robot itself (child lock, pet mode, hot water mop wash, mop drying, obstacle avoidance, station light and more), in the app settings and in Flows. Each robot only shows the settings it supports.
-- Robot camera (experimental, off by default): live video from the robot's camera in the device's camera view, for robots with remote view in the Narwal app. Needs a Narwal account. See [Camera](#camera-experimental).
-- Flow actions, conditions and triggers for common automation scenarios.
-- Narwal Map widget: the robot's map in the Narwal app's room colours, room names, dock, and the robot's live position and cleaning path, in Homey's light and dark theme.
-- Narwal Consumables widget: what the robot asks you to clean or replace now, and (with a Narwal account) the life left for each part as in the Narwal app, with a Reset button per part. A Flow trigger and condition for parts that need attention.
-- Diagnostics in the app settings: a read-only report to share, a status recording through a cleaning cycle, and command tests.
-- In English, Dutch, German, French, Italian, Swedish and Spanish, following Homey's language.
-- Resilient reconnect, heartbeat keep-alive and polling fallback.
+- **Clean:** start, pause, resume and stop a clean, clean the whole home, your favourite rooms or a single room, and send the robot back to its station.
+- **Choose how it cleans:** vacuum, mop or both, suction, water level, mop strength, number of passes and route, for every clean or just for one.
+- **Use the station:** empty the dustbin, wash the mop and dry the mop.
+- **See what it is doing:** battery, charging, docked, status (cleaning, returning, washing the mop and so on), the room it is in, the area and time of the clean, and its last error.
+- **Map widget:** your home's map in the Narwal app's colours, with room names and the robot's live position and path while it cleans.
+- **Parts widget:** what the robot asks you to clean or replace now, the life left for each part, and a Reset button per part.
+- **Robot settings:** child lock, pet mode, hot water mop washing, mop drying, obstacle avoidance, the station light and more, as in the Narwal app.
+- **Automations:** use all of the above in Homey Flows, for example clean when everyone has left, or get a message when a part needs attention.
+- **Camera (experimental):** watch the robot's camera in Homey, on robots with remote view.
+- **Languages:** English, Dutch, German, French, Italian, Swedish and Spanish, following your Homey's language.
 
-## Supported models
+## Which robots work
 
-Each model's pairing screen and its device settings (**Connection type**) show how it connects: **Local + Cloud** works over your network (the default) or through your Narwal account, **Cloud only** works only through your Narwal account, because the robot keeps its local port closed.
+When you add a robot, choose its model in Homey. Each model's pairing screen also says how it connects.
 
-| Homey driver | Connection | Status |
+| Narwal robot | Connection | Tested |
 | --- | --- | --- |
-| Flow 2 | Local + Cloud | Tested daily, both modes |
-| Flow | Local + Cloud | Local control confirmed by owners |
-| Flow Compact | Local + Cloud | Same robot as the Flow with a smaller station; not yet tested |
-| Freo 20 | Local + Cloud | Local control confirmed by owners |
-| Freo 20 Edge | Local + Cloud | Local control and room cleaning reported by an owner |
-| Freo Z10 Ultra | Local + Cloud | Local control confirmed by owners |
-| Freo Z10 Pro / Turbo | Local + Cloud | Local control confirmed on the Pro; the Turbo is the same robot. No Ultra suction |
-| Freo X10 Pro | Local + Cloud | Local control confirmed by owners |
-| Freo Z Ultra | Local + Cloud | Added from your Narwal account list (it only answers with its cloud device ID). It never sends live updates, so Homey checks it every 15 seconds; its status can lag while it works |
-| Freo Pro | Local + Cloud | Not yet tested. If it does not answer locally, use Cloud mode |
-| Freo S | Local + Cloud | Not yet tested. If it does not answer locally, use Cloud mode |
-| Freo X Ultra | Cloud | Local port closed on this model. No Ultra suction |
-| Freo X Plus | Cloud | Local port closed on this model |
-| Freo Z10 | Cloud | Local port closed on this model |
-| Other Narwal robot | Depends on the model | Any other Narwal robot vacuum, such as the China-market 002/003, JX, J5 and J6 series and newer models. Named from Narwal's model list; not yet tested |
+| Flow 2 | Local or Cloud | Yes, daily |
+| Flow 2 Compact (Flow 2 with the Compact Station) | Local or Cloud | Not yet (from version 1.4.5) |
+| Flow | Local or Cloud | Yes, by owners |
+| Flow Compact | Local or Cloud | Not yet |
+| Freo 20 | Local or Cloud | Yes, by owners |
+| Freo 20 Edge | Local or Cloud | Yes, by an owner |
+| Freo Z10 Ultra | Local or Cloud | Yes, by owners |
+| Freo Z10 Pro | Local or Cloud | Yes, by an owner |
+| Freo Z10 Turbo | Local or Cloud | Not yet (from version 1.4.5) |
+| Freo X10 Pro | Local or Cloud | Yes, by owners |
+| Freo Z Ultra | Local or Cloud, added from your Narwal account | Yes, by an owner |
+| Freo Pro | Local or Cloud | Not yet |
+| Freo S | Local or Cloud | Not yet |
+| Freo X Ultra | Cloud only | Not yet |
+| Freo X Plus | Cloud only | Not yet |
+| Freo Z10 | Cloud only | Not yet |
+| Freo, the original from 2021 | Cloud only | Not yet (from version 1.4.5) |
+| Other Narwal Robot (any other Narwal robot vacuum, for example the China-market models) | Depends on the model | Not yet |
 
-Cloud-only robots connect through your Narwal account even when the app's connection setting is Local, so you need to be signed in. Reports from owners of the untested models are very welcome.
+- **Local or Cloud:** Homey talks to the robot over your home network (the default), or through your Narwal account if you choose Cloud.
+- **Cloud only:** the robot keeps its local connection closed, so Homey always reaches it through your Narwal account. Sign in first (see [Connect your Narwal account](#connect-your-narwal-account)).
+- Own a model that is not tested yet? Please tell us in the [Community thread](https://community.homey.app/t/app-pro-narwal-control-for-narwal-robot-vacuums/160061) whether it works, ideally with a diagnostics report (see [Diagnostics](#diagnostics)).
 
-### Not supported
+**Not supported:** T10, J1 and J2 (an older protocol), and the Narwal S and F series floor washers (they are not robot vacuums).
 
-- The original **Narwal Freo** (2021): it uses an older command set. Support may come once an owner can help test it.
-- T10 / J1 and J2: an older protocol.
-- Narwal S-series and F-series floor washers: not robot vacuums.
+**Model notes:**
+- **Freo Z10 Pro, Freo Z10 Turbo and Freo X Ultra:** up to Super Powerful suction (no Ultra Powerful).
+- **Freo, the original:** three suction levels (Quiet, Standard, Strong). Its station washes and dries the mop in one step, so "Dry the mop" and "Empty the dustbin" are not offered for it.
+- **Freo Z Ultra:** it never sends live updates, so Homey checks it every 15 seconds; its status can lag a little during a clean.
 
-## Pairing
+## Before you start
 
-1. Make sure the robot is powered on and awake.
-2. In Homey, go to **Devices → Add device → Narwal**.
-3. Choose the exact model from the list, or **Other Narwal robot** for a model that is not listed. The cloud-only models (Freo X Ultra, Freo X Plus, Freo Z10) and the Freo Z Ultra are added from your Narwal account: sign in through the app settings first, then add the robot.
-4. Pick your robot under **Robots found on your network**, or enter its IP address and port (default `9002`) if it is not listed.
-5. When entering an IP, press **Continue**. The app validates the local connection and reads robot status.
+1. Set up the robot in the **Narwal app** first: connect it to your Wi-Fi and let it map your home once. Rooms, room cleaning and the map widget come from that map.
+2. Keep Homey and the robot on the **same home network**.
+3. Give the robot a **fixed IP address** in your router (a DHCP reservation). Homey follows a robot that moves to a new address, but a fixed address is the safest.
+4. While you add the robot to Homey, **close the Narwal app** on your phone. Some robots accept only one local connection at a time.
 
-Robots found on the network follow IP changes automatically; a DHCP reservation is still recommended.
+## Choose how Homey connects
 
-## Flow cards
+Open the app settings: in the Homey app go to **More → Apps → Narwal → Configure**. Under **Connection**, choose:
 
-### Actions
+- **Local** (the default): Homey talks to the robot over your home network. No Narwal account needed. Fast, works without the internet, and uses the least memory on Homey.
+- **Cloud:** Homey talks to the robot through your Narwal account, like the Narwal app does. Use this when the robot is on a different network, or when Local does not work for your robot.
 
-- Start cleaning
-- Pause cleaning
-- Resume cleaning
-- Stop cleaning
-- Return to dock
-- Locate robot
-- Set fan speed
-- Clean selected room
-- Clean default rooms
-- Clean with settings
-- Empty the dustbin
-- Wash the mop
-- Dry the mop
-- Reset a part
-- Turn a robot setting on or off
-- Change a robot setting
-- Refresh robot status
-- Refresh rooms and map
+Cloud-only models (Freo X Ultra, Freo X Plus, Freo Z10 and the original Freo) always connect through your Narwal account, whichever you choose here. The Freo Z Ultra is added from your account, but then connects locally when Local is chosen.
 
-### Conditions
+### Connect your Narwal account
 
-- Robot is cleaning
-- Robot is docked
-- Robot is charging
-- Battery is above a percentage
-- Robot is connected
-- A part needs attention
+You need this for Cloud mode, the cloud-only models, the Freo Z Ultra, the part life in the parts widget and the camera.
 
-### Triggers
+1. Open **More → Apps → Narwal → Configure**.
+2. Under **Narwal account**, choose the **country of your Narwal account**: the country you chose in the Narwal app. Narwal keeps each account on its country's own server, so a wrong country means Homey finds no robots.
+3. Enter the **email** of your Narwal account and tick **I am 14 or older** (Narwal asks this, as its own app does).
+4. Choose how to sign in:
+   - **Email code:** press **Email me a code**, enter the code from the email (check your spam folder), and press **Sign in**. Check the email address first: if no Narwal account uses it, Narwal creates a new, empty account.
+   - **Password:** enter your Narwal password and press **Sign in**.
+5. The page then shows **Signed in as** your email and country.
 
-- Robot started cleaning
-- Robot paused
-- Robot resumed
-- Robot stopped
-- Robot returned to dock
-- Robot docked
-- Robot undocked
-- Battery level changed
-- Charging state changed
-- Cleaning completed
-- Connection lost
-- Connection restored
-- A part needs attention
+Your password is never stored on Homey; only the session from Narwal is kept. To sign out, press **Sign out** on the same page.
 
-## Map, rooms and widget
+## Add your robot
 
-- The app requests the robot's map when it connects and when the robot starts or stops working, and keeps it up to date from the robot's live map updates while it cleans. The last map is saved on Homey, so cleaning and the widget work right away after a restart.
-- Rooms and their names come from the map and are used by the room Flow cards and the default rooms setting.
-- The **Narwal Map** widget draws the map with the Narwal app's room colours (neighbouring rooms always differ), thin walls, room names that fit, the dock, and the robot with its heading. While the robot cleans, its position and path update live (pushed about every 2 seconds). The path stays visible after docking until the next clean starts.
-- Widget settings: show status, show room names, and the refresh interval.
-- If no map is available yet, run a full map-building clean in the official app, then press **Refresh** in the app settings (or run the Refresh rooms and map Flow card).
+1. In the Homey app, go to **Devices → + (Add device) → Narwal**.
+2. Choose your robot's **model**. Not in the list? Choose **Other Narwal Robot**.
+3. Add the robot. What you see depends on the model and the connection:
 
-## Consumables
+**Robots found on your network** (Local)
+- Homey searches your network and lists the Narwal robots it finds. Press **Add** next to yours.
+- Not listed? Press **Search again**, or use **Add by IP address**: enter the robot's IP address (from your router, or the Narwal app's device information), keep the port at **9002**, and press **Continue**. Homey checks the robot and adds it.
 
-- The **Narwal Consumables** widget shows the parts the robot asks you to clean or replace now. The robot reports these itself, so this works in Local mode without an account.
-- When you are signed in to your Narwal account (in either connection mode), it also shows the life left for each part in percent and hours, the same numbers as the Narwal app, plus the parts to clean regularly. The names come from Narwal in your Homey language when available.
-- The app checks when the robot connects, after each clean and every hour, and keeps the last known values if the robot or the Narwal cloud does not answer.
-- Flow: **A part needs attention** (tokens: part, action) fires once per part; the condition **A part needs attention** is true while anything is due.
-- Widget settings: show hours left, show parts to clean regularly.
+**Robots on your Narwal account** (Cloud, the cloud-only models and the Freo Z Ultra)
+- Sign in to your Narwal account first (see above). The pairing screen then lists the robots on your account. Press **Add** next to yours.
 
-Core vacuum controls do not depend on the map, except starting a whole-home or room clean, which needs the map's room list.
+**Good to know while pairing**
+- **"Add it under ... instead":** the robot is a different model from the one you chose. Go back and choose the model it names.
+- **"Not answering. Wake the robot, then retry":** wake the robot (press a button on it, or open the Narwal app once), close the Narwal app again, then press **Retry**.
+- **"Already added":** this robot is already in Homey.
+- **"No robots on this Narwal account":** the robot is on another account, or it is not added in the Narwal app yet. Also check the country in the app settings.
+
+## Using the robot
+
+Open the robot in Homey to see and control it:
+
+- **Buttons:** Start cleaning, Pause, Resume, Stop, Return to dock and Locate (the robot plays a sound).
+- **Fan speed:** Quiet, Standard, Strong, Super Powerful and Ultra Powerful. A level you choose while the robot is docked is used for its next clean.
+- **Status:** Cleaning, Paused, Returning to dock, Docked, Charging, Washing mop, Drying mop, Emptying dust, Sleeping, Error and more.
+- **Battery, Charging, Docked, Connected**, the **current room**, the **cleaned area and time** of the clean, the **last error** and the **firmware** version.
+
+"Start cleaning" cleans the whole home, or your default rooms when you set them up (see [Rooms](#rooms)).
+
+### Device settings
+
+Open the robot, then the settings (gear icon):
+
+- **Connection:** the robot's IP address and port (9002). The connection type shows whether the model works locally, through the cloud, or both.
+- **Default cleaning:** the rooms "Start cleaning" and "Clean default rooms" use (see [Rooms](#rooms)).
+- **Cleaning mode:** the mode (Vacuum and mop, Vacuum only, Mop only, Vacuum then mop), water level (Dry, Normal, Wet), mop strength (Normal, High), passes (1, 2, 3) and route (Robot default, Standard, Meticulous). They apply to every clean Homey starts.
+- **Advanced:** how often Homey asks the robot for its status when no live updates arrive.
+- **Camera (experimental):** see [Camera](#camera-experimental).
+
+### App settings page
+
+**More → Apps → Narwal → Configure** also shows, for the robot you pick at the top:
+
+- **Status:** connection, battery, status, the dock, the clean's area and time, firmware, the last error and, on robots that report it, battery health.
+- **Robot settings:** the settings stored on the robot itself, such as child lock, pet mode, hot water mop washing, mop drying, obstacle avoidance and the station light. Only the settings your robot supports are shown, and a change applies straight away.
+- **Rooms:** your rooms, with a **Refresh** button that loads the rooms and map again.
+- **Diagnostics:** see [Diagnostics](#diagnostics).
+
+## Rooms
+
+Homey reads your rooms from the robot's map, with the names you gave them in the Narwal app.
+
+- **Clean one room:** use the Flow card "Clean selected room" and pick the room from the list.
+- **Default rooms:** to make "Start cleaning" clean only some rooms, open the robot's settings, enter the room numbers under **Default room IDs** (for example 3,4,5; the **Discovered rooms** list shows each room's number) and tick **Use default rooms for Start cleaning**.
+- **Rooms missing or renamed?** Change them in the Narwal app, then press **Refresh** under **Rooms** in the app settings, or run the Flow card "Refresh rooms and map".
+
+## Widgets
+
+Add them to a Homey dashboard: **Dashboards → edit → + → Narwal**.
+
+**Narwal Map**
+- Your home's map in the Narwal app's room colours, with room names, the station and the robot. While the robot cleans, its position and path update live.
+- Options: show the status bar, show room names (optionally see-through), show the last clean's path, and how often to refresh.
+- To save memory on Homey, the app keeps the full map only while a map widget is open (and for 10 minutes after). Opening the widget loads it within a few seconds.
+
+**Narwal Consumables**
+- The parts the robot asks you to clean or replace now. With a signed-in Narwal account it also shows the life left for each part in percent and hours, as in the Narwal app, plus the parts to clean regularly.
+- Options: show hours left, show parts to clean regularly, and show the **Reset** buttons (press Reset after you cleaned or replaced a part).
 
 ## Camera (experimental)
 
-- For robots with remote view in the Narwal app (the robot reports it in its own feature list, for example the Flow 2). Turn it on in the device settings under **Camera (experimental)**, and enter the robot's video code if you set one in the Narwal app. Remote view must be turned on for the robot in the Narwal app, and a Narwal account must be signed in to the app settings (in either connection mode).
-- The video goes from the robot through Narwal's cloud to your phone or browser; nothing passes through or is stored on Homey.
-- The robot sends H.265 video. It plays in the **Homey web app** (desktop browsers and Safari on the iPhone). The Homey phone apps cannot play H.265 yet: the camera view then says so, and the robot's camera is not started.
-- A view ends when you close it, and the robot ends a view by itself after about two minutes; open it again to continue.
-- Turning the setting off stops the camera at once; the camera view itself goes away the next time the app starts (Homey keeps it until then), and opening it says the camera is turned off.
+Robots with remote view in the Narwal app (for example the Flow 2) can show their camera in the robot's camera view in Homey.
+
+1. In the Narwal app, turn on **remote view** for the robot.
+2. Sign in to your Narwal account in the app settings.
+3. In the robot's device settings, tick **Show the robot's camera** under **Camera (experimental)**, and enter the **video code** if you set one in the Narwal app.
+
+Good to know:
+- The robot sends H.265 video. It plays in the **Homey web app** (in a desktop browser, and in Safari on an iPhone). The Homey phone apps cannot play it yet; the camera view then tells you so.
+- The video goes from the robot through Narwal's cloud to your screen; nothing is recorded or stored on Homey.
+- The robot ends a view after about two minutes; open it again to continue.
+- Turned the camera off? The camera view goes away the next time the app restarts (**More → Apps → Narwal → Restart**).
+
+## Automations with Flows
+
+Find the cards under the robot when you create a Flow. Every card works with every Narwal robot, except where a model note says otherwise.
+
+**When...** (triggers)
+
+| Card | What it does |
+| --- | --- |
+| Robot started cleaning | The robot started a clean. |
+| Robot paused | The clean was paused. |
+| Robot resumed | A paused clean continues. |
+| Robot stopped | The clean was stopped. |
+| Cleaning completed | The clean finished. Tags: area (m²), duration (minutes) and the rooms it cleaned. |
+| Robot returned to dock | The robot is back in its station. |
+| Robot docked | The robot entered the station. |
+| Robot undocked | The robot left the station. |
+| Battery level changed | Tag: the battery level in percent. |
+| Charging state changed | Tag: whether it is charging. |
+| A part needs attention | The robot asks for a part to be cleaned or replaced, or a part's life runs out. Fires once per part. Tags: the part, and what to do. |
+| Connection lost | Homey lost the connection to the robot. |
+| Connection restored | Homey is connected to the robot again. |
+
+**And...** (conditions; each can be inverted to "is not")
+
+| Card | True when |
+| --- | --- |
+| Robot is cleaning | A clean is running. |
+| Robot is docked | The robot is in its station. |
+| Robot is charging | The robot is charging. |
+| Battery is above ...% | The battery is above the level you set. |
+| Robot is connected | Homey is connected to the robot. |
+| A part needs attention | The robot asks for any part to be cleaned or replaced, or a part's life has run out. |
+
+**Then...** (actions)
+
+| Card | What it does |
+| --- | --- |
+| Start cleaning | Cleans the whole home, or your default rooms. |
+| Clean default rooms | Cleans your default rooms. |
+| Clean selected room | Cleans the room you pick from the list. |
+| Clean with settings | One clean with its own settings: rooms, mode, suction, water level, mop strength, passes and route. Anything left on "Use device setting" takes the robot's settings. |
+| Pause cleaning | Pauses the clean. |
+| Resume cleaning | Continues a paused clean. |
+| Stop cleaning | Ends the clean. |
+| Return to dock | Sends the robot back to its station. |
+| Locate robot | The robot plays a sound. |
+| Set fan speed | Sets the suction for the current or next clean. |
+| Empty the dustbin | Empties the robot's dustbin into the station (the robot must be in the station). |
+| Wash the mop | Washes the mop in the station. When the robot is not cleaning, the station dries the mop afterwards, as in the Narwal app. |
+| Dry the mop | Dries the mop in the station. |
+| Reset a part | Resets a part's counter after you cleaned or replaced it. |
+| Turn a robot setting on or off | For example child lock or emptying the dustbin after cleaning. The list shows your robot's settings. |
+| Change a robot setting | Settings with several choices, such as mop drying or obstacle avoidance. |
+| Refresh robot status | Asks the robot for its status now. |
+| Refresh rooms and map | Loads the rooms and map again. |
+
+### Ideas
+
+- **Clean when everyone is out:** When the last person leaves home, And the robot is docked, And the battery is above 50%, Then Start cleaning.
+- **Kitchen after dinner:** When it is 20:30, Then Clean with settings: the kitchen, Vacuum then mop, 2 passes.
+- **Quiet while you are on a call:** When your work calendar starts a meeting, And the robot is cleaning, Then Pause cleaning; when the meeting ends, Then Resume cleaning.
+- **Guests are coming:** When the doorbell rings, And the robot is cleaning, Then Return to dock.
+- **Part reminders:** When A part needs attention, Then send a push notification with the part and what to do.
+- **Report the clean:** When Cleaning completed, Then send a notification with the area, the time and the rooms.
+- **Child lock at night:** When it is 21:00, Then Turn Child lock on; in the morning, turn it off.
 
 ## Troubleshooting
 
-### Diagnostics
+### Homey does not find the robot while pairing
 
-Open **Apps → Narwal → Configure**, pick the robot and press **Run diagnostics**. In about a minute it checks the network, the connection, the robot's model, firmware and features, its status messages, the map, consumables and the Narwal account, and shows a report to copy or share. It only reads information (the robot does not move) and leaves out IDs, addresses, room names and your account. Paste the report in a [bug report](https://github.com/TheBlackBush/homey-apps-support/issues/new/choose) or in the [Homey Community thread](https://community.homey.app/t/app-pro-narwal-control-for-narwal-robot-vacuums/160061) when asking for help or reporting a model that is not tested yet.
-
-The app also writes what it does to its log, without IDs, addresses, emails or room names: pairing steps, the Narwal account's server and robot count, how each robot connects, a short summary once the robots have connected (and every hour after), and the diagnostics report when you run it. A Homey diagnostics report (**Settings → Apps → Narwal → Send diagnostics report**) therefore shows what went wrong.
-
-### Pairing cannot reach the robot
-
-- Verify the robot IP address and port.
-- Make sure Homey and the robot are on the same LAN/VLAN.
-- Wake the robot by opening the official app once, then close it and retry.
-- Confirm another client is not holding the only local connection.
-
-### Official app conflicts with Homey
-
-Some robots appear to allow only one local client at a time. Close the official Narwal app while Homey is connected.
-
-### Rooms or map are empty
-
-- Build a map in the official app first.
-- Press **Refresh** in the app settings.
-- If the widget still has no map, the current local payload may not contain parsable map data yet.
+- Check that the robot is on, connected to Wi-Fi, and on the same network as Homey. Robots on a guest network or another VLAN cannot be found.
+- Wake the robot (press a button on it, or open the Narwal app once), then close the Narwal app and press **Search again**.
+- Use **Add by IP address** with the robot's IP address and port 9002.
+- Is your model **cloud only** (Freo X Ultra, Freo X Plus, Freo Z10, the original Freo) or the **Freo Z Ultra**? Sign in to your Narwal account in the app settings first; the robot is then listed under **Robots on your Narwal account**.
 
 ### Signed in, but no robot is listed
 
-Narwal keeps each account on its country's own server, and the robots are only listed there. Sign out in the app settings and sign in again with the country your Narwal app account is set to. (Before 1.4.2 the app sent many countries, such as Canada, Australia, the UK and Germany, to a shared server; signing in again fixes that.)
+Narwal keeps each account on its country's own server, and the robots are only listed there. Sign out in the app settings and sign in again with the country your Narwal app account is set to. Also check that the robot is added to that account in the Narwal app.
 
-### Cloud mode is slow to answer
+### The robot shows as disconnected or unavailable
 
-Over the Narwal cloud, the robot's replies take 20 to 30 seconds. The app waits for them, and commands succeed as soon as the robot's status shows the result, usually within a few seconds. If the official Narwal app shows a network error for the robot, Homey cannot reach it through the cloud either; restart the robot or check its internet access.
+- Make sure the robot is on and has Wi-Fi. A robot in deep sleep may need a button press.
+- Close the Narwal app on your phone: some robots accept only one local connection, and the Narwal app can take it.
+- Did the robot get a new IP address? Homey usually follows it on its own; if not, enter the new address in the robot's device settings. A fixed address in your router prevents this.
+- In Cloud mode: if the Narwal app also shows a network error for the robot, Homey cannot reach it either. Restart the robot or check its internet connection.
 
-### Connection keeps dropping
+### Commands are slow or seem to do nothing
 
-- Use a static IP or DHCP reservation.
-- Check Wi-Fi signal near the dock.
-- Be aware that firmware updates can change local protocol behavior.
+- In **Cloud** mode the robot's answers can take 20 to 30 seconds; Homey waits for them, and the status usually updates within a few seconds. **Local** mode is faster when your robot supports it.
+- Station actions (empty the dustbin, wash and dry the mop) only work when the robot is in its station.
+- "The robot is busy with a task": the robot is already doing something; try again when it is done.
+
+### "Start cleaning" does not clean the rooms you expect
+
+Check **Default cleaning** in the robot's device settings: with **Use default rooms for Start cleaning** ticked, it cleans only the rooms in **Default room IDs**. Untick it to clean the whole home.
+
+### Rooms or map are missing
+
+- Let the robot map your home in the Narwal app first.
+- Press **Refresh** under **Rooms** in the app settings, or run "Refresh rooms and map".
+- The map widget loads the full map when you open it; give it a few seconds.
+
+### The parts widget shows no life left per part
+
+The life of each part comes from your Narwal account. Sign in to your Narwal account in the app settings. Without an account, the widget still shows what the robot asks you to clean or replace now.
+
+### The camera does not play
+
+- In a Homey phone app, the camera view says it cannot play the robot's video: use the Homey web app (a desktop browser, or Safari on an iPhone).
+- Check that remote view is on for the robot in the Narwal app, that your Narwal account is signed in, and that the video code is right.
+
+### Homey is short on memory (for example a Homey Pro mini)
+
+- Use **Local** mode if your robot supports it: it uses about 10 to 15 MB less than Cloud mode.
+- Close the map widget when you do not need it: the app keeps the full map only while a map widget is open.
+- Leave the camera turned off when you do not use it.
+
+### The status or a setting does not match the Narwal app
+
+Press **Refresh robot status** (Flow card) or reopen the app settings page. If it still differs, please run [Diagnostics](#diagnostics) and report it; it helps us support your model better.
+
+## Diagnostics
+
+The app has its own diagnostics that check how Homey reaches your robot.
+
+1. Open **More → Apps → Narwal → Configure**, pick the robot at the top and press **Run diagnostics** under **Diagnostics**.
+2. In about a minute it checks the network, the connection, the robot's model, firmware and features, its status messages, the map, the parts and your Narwal account. It only reads information; the robot does not move.
+3. Press **Copy report** (or **Share**) and paste the report in a bug report or the Community thread.
+
+The report leaves out IDs, IP addresses, room names and your account. Optional extras on the same page: **Record a cycle** records the robot's statuses while you run a clean from the Narwal app, and **Command tests** send one command at a time (the robot moves; each test asks you to confirm first).
+
+## Questions
+
+- **Do I need a Narwal account?** No, for most robots. You need one for Cloud mode, the cloud-only models (Freo X Ultra, Freo X Plus, Freo Z10, the original Freo), the Freo Z Ultra, the part life in the parts widget and the camera.
+- **Does it work without the internet?** Yes, in Local mode, for the robots that support it.
+- **Can I keep using the Narwal app?** Yes. Changes you make there show up in Homey. Only close it while you add the robot to Homey.
+- **Why is my robot's model named differently?** Robots added under "Other Narwal Robot" are named from Narwal's model list.
 
 ## Reporting a problem
 
-1. Run the app's diagnostics: **Apps → Narwal → Configure → Diagnostics → Run diagnostics → Copy report**.
-2. [Open a bug report](https://github.com/TheBlackBush/homey-apps-support/issues/new/choose), choose **Narwal**, and paste the report. Or send a Homey diagnostics report (**Settings → Apps → Narwal → Send diagnostics report**) and add its Log ID to the issue.
+1. Run [Diagnostics](#diagnostics) and press **Copy report**.
+2. [Open a bug report](https://github.com/TheBlackBush/homey-apps-support/issues/new/choose), choose **Narwal**, and paste the report. Or send a Homey diagnostics report (**More → Apps → Narwal → Send diagnostics report**) and add its Log ID to the issue.
 3. Do not paste your email address, passwords, video code, device IDs, IP addresses or room names: issues here are public. The app's report already leaves these out.
 
 ## Privacy
 
-This app talks to your robot on your local network by default. Cloud mode is optional: only when you switch Connection to Cloud and sign in with your Narwal account in the app settings does the app connect to Narwal's servers, and then only to control your own robots. Your password is never stored; only the session from Narwal is kept on your Homey. The robot camera is off by default; when you turn it on and open the camera view, the video comes from the robot through Narwal's cloud, as in the Narwal app. The video code you enter for it is kept in the device settings. The app sends no telemetry or analytics to the developer, Narwal or any third party.
+The app talks to your robot on your home network by default. Only when you sign in with your Narwal account (for Cloud mode, cloud-only models, part life or the camera) does it connect to Narwal's servers, and then only for your own robots. Your password is never stored; only the session from Narwal is kept on your Homey. Camera video goes from the robot through Narwal's cloud to your screen and is not stored on Homey. The app sends no telemetry or analytics to the developer, Narwal or anyone else.
