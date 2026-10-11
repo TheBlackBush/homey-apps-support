@@ -3,6 +3,7 @@
 Control your Switcher smart home devices from Homey Pro: water heater switches, the Smart Plug and Bath Heater, Runner shutter switches, Light switches and the Breeze air conditioner controller. The app talks to the devices directly over your home network, so control is instant and keeps working when the internet or the Switcher cloud is down.
 
 - **Install:** [test version](https://homey.app/a/il.co.switcher.home/test/) (the Homey App Store version follows after certification)
+- **Questions and news:** [Homey Community thread](https://community.homey.app/t/app-pro-switcher-local-control-for-switcher-water-heaters-shutters-lights-and-breeze/160624)
 - **Report a problem or ask for a feature:** [open an issue](https://github.com/TheBlackBush/homey-apps-support/issues/new/choose) and choose **Switcher**
 
 > Unofficial community app. Not affiliated with, authorised by, or endorsed by Switcher. "Switcher" is a trademark of its owner and is used here only to describe compatibility.
@@ -115,7 +116,7 @@ Check that nothing blocks traffic from Homey to the device (TCP port 9957 for wa
 ## Reporting a problem
 
 1. In the Homey app, go to **Settings → Apps → Switcher → Send diagnostics report** and copy the Log ID it shows.
-2. [Open a bug report](https://github.com/TheBlackBush/homey-apps-support/issues/new/choose), choose **Switcher**, and add the Log ID, your device model and what happened.
+2. [Open a bug report](https://github.com/TheBlackBush/homey-apps-support/issues/new/choose), choose **Switcher**, and add the Log ID, your device model and what happened. For questions, use the [Homey Community thread](https://community.homey.app/t/app-pro-switcher-local-control-for-switcher-water-heaters-shutters-lights-and-breeze/160624).
 3. Do not paste your email address, the account token, device IDs or IP addresses: issues here are public.
 
 ## Privacy
