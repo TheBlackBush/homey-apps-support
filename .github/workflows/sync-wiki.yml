@@ -1,0 +1,47 @@
+name: Sync wiki
+
+# Rebuilds the wiki from README.md and the app guides (<app>/README.md) on every
+# change, so the wiki always matches the repository.
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "README.md"
+      - "*/README.md"
+      - ".github/scripts/sync_wiki.py"
+      - ".github/workflows/sync-wiki.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-wiki
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Sync wiki
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+
+      - name: Build and push wiki pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          git clone "https://x-access-token:${GH_TOKEN}@github.com/${REPO}.wiki.git" wiki
+          python3 .github/scripts/sync_wiki.py . wiki "${REPO}" main
+          cd wiki
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Wiki is up to date."
+            exit 0
+          fi
+          git -c user.name="github-actions[bot]" -c user.email="41898283+github-actions[bot]@users.noreply.github.com" \
+            commit -m "Sync from ${GITHUB_SHA::7}"
+          git push
