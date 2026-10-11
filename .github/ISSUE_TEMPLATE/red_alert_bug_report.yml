@@ -1,0 +1,107 @@
+name: "Red Alert Israel: bug report"
+description: Alerts, Flows, the widget or the settings of the Red Alert Israel app do not work as they should.
+title: "[Red Alert]: "
+labels: ["bug", "app: red alert"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Check the [Red Alert Israel guide](https://github.com/TheBlackBush/homey-apps-support/wiki/Red-Alert-Israel#troubleshooting) first, most missed alerts come from the city selection.
+
+        This app does not replace official alerts. Keep the Home Front Command app and other official channels active.
+
+        Issues are public: you do not need to share your home address. If you prefer not to name your city, name a nearby city or the district.
+  - type: dropdown
+    id: app
+    attributes:
+      label: App
+      options:
+        - Red Alert Israel (il.co.tzevaadom)
+      default: 0
+    validations:
+      required: true
+  - type: input
+    id: app_version
+    attributes:
+      label: App version
+      description: Homey app, Settings, Apps, Red Alert Israel.
+      placeholder: "0.4.9"
+    validations:
+      required: true
+  - type: input
+    id: homey
+    attributes:
+      label: Homey model and version
+      placeholder: "Homey Pro (2023), 12.9.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: What does not work
+      options:
+        - A Flow did not start for an alert
+        - A Flow started for an alert in a city I did not select
+        - A Flow started twice for one alert
+        - Early warning or all-clear
+        - Alert message or link (wrong text, language or link)
+        - The widget (connection, active alert, switch)
+        - The settings page (cities list, saving)
+        - My city or area is missing
+        - Something else
+    validations:
+      required: true
+  - type: dropdown
+    id: alert_type
+    attributes:
+      label: Alert type
+      description: The alert the problem is about, when there is one.
+      options:
+        - Rockets and missiles
+        - Hostile aircraft
+        - Terrorist infiltration
+        - Early warning
+        - All-clear
+        - Earthquake, hazardous materials or another threat
+        - Not about a specific alert
+  - type: input
+    id: alert_time
+    attributes:
+      label: Date and time of the alert
+      description: Israel time, so the alert can be found in the alert history.
+      placeholder: "11.10.2026 21:30"
+  - type: input
+    id: cities
+    attributes:
+      label: Cities or district
+      description: The alert area involved, or a nearby city or the district.
+      placeholder: "Tel Aviv - City Center"
+  - type: dropdown
+    id: widget
+    attributes:
+      label: What the widget showed
+      description: The Connection and Ingest source rows of the Red Alert Status widget, if you use it.
+      options:
+        - Connected, WebSocket
+        - Reconnecting
+        - Disconnected
+        - OREF Fallback
+        - I do not use the widget
+        - Did not check
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you expected, what happened instead, and which Flow cards are involved. Copy any error message exactly.
+    validations:
+      required: true
+  - type: input
+    id: log_id
+    attributes:
+      label: Diagnostics Log ID
+      description: Homey app, Settings, Apps, Red Alert Israel, Send diagnostics report, then copy the Log ID.
+  - type: textarea
+    id: more
+    attributes:
+      label: Anything else
+      description: Screenshots of the Flow or settings, when it started, what you already tried.

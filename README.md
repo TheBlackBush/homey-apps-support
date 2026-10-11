@@ -6,7 +6,7 @@ Support for the Homey apps by Idan Bush: report a problem, ask for a feature, or
 | --- | --- | --- |
 | [Narwal: control for Narwal robot vacuums](narwal/README.md) | [com.narwal.global](https://homey.app/a/com.narwal.global/) | [Forum thread](https://community.homey.app/t/app-pro-narwal-control-for-narwal-robot-vacuums/160061) |
 | [PalGate Control: open your PalGate gates](palgate/README.md) | [com.pal-es](https://homey.app/a/com.pal-es/) | |
-| Red Alert Israel | [il.co.tzevaadom](https://homey.app/a/il.co.tzevaadom/) | |
+| [Red Alert Israel: Home Front Command alerts in Flows](red-alert/README.md) | [il.co.tzevaadom](https://homey.app/a/il.co.tzevaadom/) | |
 | [Switcher: local control for Switcher devices](switcher/README.md) | [il.co.switcher.home](https://homey.app/a/il.co.switcher.home/test/) (test version) | [Forum thread](https://community.homey.app/t/app-pro-switcher-local-control-for-switcher-water-heaters-shutters-lights-and-breeze/160624) |
 
 ## Report a problem
