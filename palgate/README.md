@@ -26,17 +26,32 @@ Open your PalGate gates and barriers from Homey Pro: from the device tile, from 
 
 You connect once for the whole app; all your gates use the same connection. The app links to your account the same way the PalGate app links an extra phone, so you do not need to share your password or an SMS code.
 
-1. In the Homey app, go to **Settings → Apps → PalGate Control → Configure**.
-2. Tap **Link with PalGate App**. A QR code appears.
+1. In the Homey app, go to **Settings → Apps → PalGate Control → Configure**. Under **PalGate account** it says **Not connected**.
+2. Tap **Link with PalGate app**. A QR code appears, with a countdown.
 3. On your phone, open the PalGate app and go to **Device Linking → Link a Device**, then scan the QR code.
-4. Within a few seconds the settings page says **Link successful** and fills in **Phone Number**, **Token Type** and **Session Token** by itself.
-5. Tap **Save**. The connection is only stored after you save.
+4. Within a few seconds the page shows **Connected**, with the last four digits of your phone number. The connection is saved by itself; there is nothing else to tap.
 
-The QR code waits for about two minutes. If it says **Still waiting**, tap **Link with PalGate App** again to get a new code.
+The QR code is valid for two minutes. When it expires, tap **Get a new code** and scan it right away.
 
 Afterwards, Homey shows up as a linked device in the PalGate app. If you remove it there, Homey can no longer open your gates until you link again.
 
-**Entering the details by hand:** if you already have your phone number, token type and session token (for example from another PalGate integration), you can type them into the fields and tap **Save** instead of scanning. The phone number is in international format without the plus sign, for example `9725xxxxxxxx`.
+### Check, renew or remove the connection
+
+When you are connected, the **PalGate account** section has three buttons:
+
+- **Test connection:** asks PalGate whether the connection works and shows how many gates your account can open. Nothing is opened.
+- **Link again:** shows a new QR code, for example after you removed Homey from the linked devices in the PalGate app.
+- **Disconnect:** removes the connection from Homey after you confirm. Your gates stay in Homey but cannot be opened until you connect again.
+
+### Connect with a session token
+
+Only needed if you already have a PalGate session token, for example from another PalGate integration. Open **Connect with a session token** at the bottom of the settings page and fill in:
+
+- **Phone number:** international format, digits only, without + or spaces, for example `972501234567`.
+- **Account type:** **Linked device**, **Primary device** or **SMS login**, matching where the token comes from.
+- **Session token:** 32 characters, digits 0 to 9 and letters a to f.
+
+Tap **Check and save**. Homey first tests the details with PalGate and only saves them when PalGate accepts them.
 
 ## Add your gates
 
@@ -57,9 +72,9 @@ Each gate is a garage door in Homey.
 
 ### How long the gate shows as open
 
-In **Settings → Apps → PalGate Control → Configure**, under **Behavior**, **Auto turn-off delay** sets how long Homey shows the gate as open after the command, in milliseconds: from 2000 (2 seconds) to 60000 (1 minute). The default is 5000 (5 seconds). Tap **Save** after changing it.
+In **Settings → Apps → PalGate Control → Configure**, under **Gate tile**, **Show the gate as open for** sets how long Homey shows the gate as open after the open command: from 2 to 60 seconds. The default is 5 seconds. The change is saved as soon as you pick a value.
 
-This only changes what Homey shows. The real gate opens and closes the way it is set up in PalGate. A longer delay is useful when you want "the gate is open" to stay true for a while in your Flows.
+This only changes what Homey shows. The real gate opens and closes the way it is set up in PalGate. A longer time is useful when you want "the gate is open" to stay true for a while in your Flows.
 
 ## Automations with Flows
 
@@ -70,7 +85,7 @@ The app uses Homey's standard garage door Flow cards; it adds no cards of its ow
 | Open the garage door | Then | Opens the gate |
 | Close the garage door | Then | Nothing (PalGate has no close command) |
 | The garage door opened | When | Runs when the gate was opened from Homey |
-| The garage door closed | When | Runs when Homey shows the gate as closed again, after the auto turn-off delay |
+| The garage door closed | When | Runs when Homey shows the gate as closed again, after the open time you set |
 | The garage door is open / is closed | And | Checks what Homey shows, not the real gate |
 
 "Opened from Homey" includes the tile, a Flow, a voice assistant and the Homey app. Openings from the PalGate app, a remote or a phone call do not start a Flow.
@@ -88,15 +103,20 @@ When you open a gate automatically, keep in mind who could be standing at it. Op
 
 ### "Missing PalGate credentials in app settings" when adding gates
 
-The app is not connected yet, or the details were not saved. Follow [Connect your PalGate account](#connect-your-palgate-account) and make sure you tap **Save** at the end.
+The app is not connected yet: the settings page shows **Not connected**. Follow [Connect your PalGate account](#connect-your-palgate-account).
 
 ### "Failed loading gates from PalGate API" when adding gates
 
 PalGate refused the connection details.
 
-- Link again from the app settings and tap **Save**. This fixes most cases, for example when Homey was removed from the linked devices in the PalGate app.
-- If you entered the details by hand, check the phone number (international format, no plus sign) and that the token type matches the token.
+- Tap **Link again** in the app settings and scan the new code. This fixes most cases, for example when Homey was removed from the linked devices in the PalGate app.
+- If you connected with a session token, check the phone number (international format, digits only) and that the account type matches the token.
+- Tap **Test connection** to see whether PalGate accepts the connection now.
 - Check that Homey has internet access.
+
+### Test connection says "PalGate refused the connection"
+
+The link is no longer valid, usually because Homey was removed from the linked devices in the PalGate app, or the session token was entered wrong. Tap **Link again** and scan the new code. Also check Homey's date and time (**Settings → General**).
 
 ### The gate list is empty or a gate is missing
 
@@ -108,18 +128,18 @@ The tile goes straight back to closed when the command fails.
 
 - Check that you can open the same gate from the PalGate app.
 - Check that Homey has internet access.
-- If it stopped working for all gates at once, link again from the app settings: the link may have been removed in the PalGate app.
+- If it stopped working for all gates at once, tap **Test connection** in the app settings. If PalGate refuses it, tap **Link again**: the link may have been removed in the PalGate app.
 - Check that Homey's date and time are correct (**Settings → General**). The connection uses the current time, and a clock that is far off makes PalGate refuse the command.
 
 ### The QR code does not appear, or linking fails
 
-- Check that Homey has internet access, then tap **Link with PalGate App** again.
-- If the settings page says **Still waiting**, the code expired after two minutes. Tap the button again for a new code and scan it right away.
+- Check that Homey has internet access, then tap **Link with PalGate app** again.
+- If the page says **This code has expired**, tap **Get a new code** and scan it right away. Codes are valid for two minutes.
 - Restarting the app or Homey cancels a code that was not scanned yet. Get a new one.
 
 ### Homey shows the gate as open, but it is closed (or the other way around)
 
-This is expected: PalGate does not report the real gate state. Homey shows open for the auto turn-off delay after each open command, and closed the rest of the time.
+This is expected: PalGate does not report the real gate state. Homey shows open for the open time you set (5 seconds by default) after each open command, and closed the rest of the time.
 
 ## Questions
 
