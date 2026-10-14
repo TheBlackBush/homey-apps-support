@@ -66,7 +66,7 @@ When you add a robot, choose its model in Homey. Each model's pairing screen als
 
 ## Choose how Homey connects
 
-Open the app settings: in the Homey app go to **More → Apps → Narwal → Configure**. Under **Connection**, choose:
+Open the app settings: in the Homey app go to **More → Apps → Narwal → App Settings**. Under **Connection**, choose:
 
 - **Local** (the default): Homey talks to the robot over your home network. No Narwal account needed. Fast, works without the internet, and uses the least memory on Homey.
 - **Cloud:** Homey talks to the robot through your Narwal account, like the Narwal app does. Use this when the robot is on a different network, or when Local does not work for your robot.
@@ -77,7 +77,7 @@ Cloud-only models (Freo X Ultra, Freo X Plus, Freo Z10 and the original Freo) al
 
 You need this for Cloud mode, the cloud-only models, the Freo Z Ultra, the part life in the parts widget and the camera.
 
-1. Open **More → Apps → Narwal → Configure**.
+1. Open **More → Apps → Narwal → App Settings**.
 2. Under **Narwal account**, choose the **country of your Narwal account**: the country you chose in the Narwal app. Narwal keeps each account on its country's own server, so a wrong country means Homey finds no robots.
 3. Enter the **email** of your Narwal account and tick **I am 14 or older** (Narwal asks this, as its own app does).
 4. Choose how to sign in:
@@ -129,7 +129,7 @@ Open the robot, then the settings (gear icon):
 
 ### App settings page
 
-**More → Apps → Narwal → Configure** also shows, for the robot you pick at the top:
+**More → Apps → Narwal → App Settings** also shows, for the robot you pick at the top:
 
 - **Status:** connection, battery, status, the dock, the clean's area and time, firmware, the last error and, on robots that report it, battery health.
 - **Robot settings:** the settings stored on the robot itself, such as child lock, pet mode, hot water mop washing, mop drying, obstacle avoidance and the station light. Only the settings your robot supports are shown, and a change applies straight away.
@@ -296,7 +296,7 @@ Press **Refresh robot status** (Flow card) or reopen the app settings page. If i
 
 The app has its own diagnostics that check how Homey reaches your robot.
 
-1. Open **More → Apps → Narwal → Configure**, pick the robot at the top and press **Run diagnostics** under **Diagnostics**.
+1. Open **More → Apps → Narwal → App Settings**, pick the robot at the top and press **Run diagnostics** under **Diagnostics**.
 2. In about a minute it checks the network, the connection, the robot's model, firmware and features, its status messages, the map, the parts and your Narwal account. It only reads information; the robot does not move.
 3. Press **Copy report** (or **Share**) and paste the report in a bug report or the Community thread.
 
